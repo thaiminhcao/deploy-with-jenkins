@@ -1,7 +1,5 @@
 pipeline {
-    agent {
-        dockerfile true
-    }
+    agent any
 
     environment {
         DOCKER_IMAGE = 'thaihihi/demo:latest'
