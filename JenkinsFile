@@ -13,6 +13,7 @@ pipeline {
                 script {
                     def dockerHome = tool 'myDocker'
                     env.PATH = '${dockerHome}/bin:${env.PATH}'
+                    sh 'docker --version'
                 }
             }
         }
@@ -28,19 +29,15 @@ pipeline {
 
         stage('Pull Docker image from registry') {
             steps {
-                script {
                    withDockerRegistry(credentialsId: 'docker-hub',url: 'https://index.docker.io/v1/') {
                         sh 'docker pull ${DOCKER_IMAGE}'
                     }
-                }
             }
         }
 
         stage('Run Docker image') {
             steps {
-                script {
                     sh 'docker run -d -p 3000:3000 ${DOCKER_IMAGE}'
-                }
             }
         }
     }
