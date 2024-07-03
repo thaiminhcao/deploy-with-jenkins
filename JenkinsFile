@@ -30,16 +30,16 @@ pipeline {
             }
         }
 
-        stage('Pull Docker image from registry') {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        sh 'docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}'
-                        sh 'docker pull ${DOCKER_IMAGE}'
-                    }
-                }
-            }
-        }
+        // stage('Pull Docker image from registry') {
+        //     steps {
+        //         script {
+        //             withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+        //                 sh 'docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}'
+        //                 sh 'docker pull ${DOCKER_IMAGE}'
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('Run Docker image') {
             steps {
