@@ -11,7 +11,7 @@ pipeline {
         
         stage('Push Docker image to registry') {
             steps {
-                withDockerRegistry(credentialsId: '${DOCKER_REGISTRY_CREDENTIALS_ID}',url: '${DOCKER_REGISTRY_URL}') {
+                withDockerRegistry(credentialsId: '${DOCKER_REGISTRY_CREDENTIALS_ID}',url: '${DOCKER_REGISTRY_URL}',toolName: 'myDocker') {
                     sh 'docker build -t ${DOCKER_IMAGE} .'
                     sh 'docker push ${DOCKER_IMAGE}'
                 }
@@ -20,7 +20,7 @@ pipeline {
 
         stage('Pull Docker image from registry') {
             steps {
-                   withDockerRegistry(credentialsId: '${DOCKER_REGISTRY_CREDENTIALS_ID}',url: '${DOCKER_REGISTRY_URL}') {
+                   withDockerRegistry(credentialsId: '${DOCKER_REGISTRY_CREDENTIALS_ID}',url: '${DOCKER_REGISTRY_URL}', toolName: 'myDocker') {
                         sh 'docker pull ${DOCKER_IMAGE}'
                     }
             }
@@ -28,7 +28,7 @@ pipeline {
 
         stage('Run Docker image') {
             steps {
-                    sh 'docker run -d -p 3000:3000 ${DOCKER_IMAGE}'
+                docker.image('${DOCKER_IMAGE}').withRun('-d -p 3000:3000')
             }
         }
     }
