@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        dockerfile true
+    }
 
     environment {
         DOCKER_IMAGE = 'thaihihi/demo:latest'
@@ -11,18 +13,18 @@ pipeline {
         
         stage('Push Docker image to registry') {
             steps {
-                withDockerRegistry(credentialsId: '${DOCKER_REGISTRY_CREDENTIALS_ID}',url: '${DOCKER_REGISTRY_URL}',toolName: 'myDocker') {
-                    sh 'docker build -t ${DOCKER_IMAGE} .'
-                    sh 'docker push ${DOCKER_IMAGE}'
+                docker.withRegistry('${DOCKER_REGISTRY_URL}','${DOCKER_REGISTRY_CREDENTIALS_ID}' ) {
+                    def customImage = docker.build('${DOCKER_IMAGE}')
+                    customImage.push()
                 }
             }
         }
 
         stage('Pull Docker image from registry') {
             steps {
-                   withDockerRegistry(credentialsId: '${DOCKER_REGISTRY_CREDENTIALS_ID}',url: '${DOCKER_REGISTRY_URL}', toolName: 'myDocker') {
-                        sh 'docker pull ${DOCKER_IMAGE}'
-                    }
+                docker.withRegistry('${DOCKER_REGISTRY_URL}','${DOCKER_REGISTRY_CREDENTIALS_ID}' ) {
+                    docker.pull('${DOCKER_IMAGE}')
+                }
             }
         }
 
