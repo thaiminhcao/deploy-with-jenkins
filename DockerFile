@@ -1,26 +1,26 @@
-# Sử dụng Node.js 14
 FROM node:14
 
-# Tạo thư mục làm việc
+USER root
+
+RUN apt-get update
+apt-get install -y wget
+wget https://get.docker.com/builds/Linux/x86_64/docker-17.04.0-ce.tgz
+tar zxvf docker-17.04.0-ce.tgz
+mv docker/docker /usr/local/bin
+rm -r docker docker-17.04.0-ce.tgz
+
 WORKDIR /usr/src/app
 
-# Sao chép package.json và package-lock.json
 COPY package*.json ./
 
-# Cài đặt các gói phụ thuộc
 RUN npm ci
 
-# Sao chép mã nguồn của ứng dụng
 COPY . .
 
-# Chạy lệnh kiểm tra
 RUN npm run test
 
-# Biên dịch ứng dụng
 RUN npm run build
 
-# Mở cổng 3000
 EXPOSE 3000
 
-# Chạy ứng dụng
 CMD [ "npm", "start" ]
