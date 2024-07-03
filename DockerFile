@@ -1,14 +1,5 @@
 FROM node:14
 
-USER root
-
-RUN apt-get update
-apt-get install -y wget
-wget https://get.docker.com/builds/Linux/x86_64/docker-17.04.0-ce.tgz
-tar zxvf docker-17.04.0-ce.tgz
-mv docker/docker /usr/local/bin
-rm -r docker docker-17.04.0-ce.tgz
-
 WORKDIR /usr/src/app
 
 COPY package*.json ./
