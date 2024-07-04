@@ -14,8 +14,9 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('${DOCKER_REGISTRY_URL}', '${DOCKER_REGISTRY_CREDENTIALS_ID}') {
-                        def customImage = docker.build('${DOCKER_IMAGE}')
-                        customImage.push()
+                        sh 'docker build -t ${DOCKER_IMAGE} .'
+                        sh 'docker push ${DOCKER_IMAGE}'
+                  
                     }
                 }
             }
