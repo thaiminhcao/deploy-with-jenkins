@@ -11,18 +11,18 @@ pipeline {
 
     stages {
         stage("Push Docker image to registry") {
-            environment {
-                DOCKER_TAG ="${GIT_BRANCH.tokenize("/).pop()}-${BUILD_NUMBER}-${GIT_COMMIT.substring(0,7)}"
-            }
+            // environment {
+            //     DOCKER_TAG ="${GIT_BRANCH.tokenize("/).pop()}-${BUILD_NUMBER}-${GIT_COMMIT.substring(0,7)}"
+            // }
             steps {
                 script {
                     docker.withRegistry("${DOCKER_REGISTRY_URL}", "${DOCKER_REGISTRY_CREDENTIALS_ID}") {
-                        sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+                        sh "docker build -t ${DOCKER_IMAGE}:latest ."
                         sh "docker push ${DOCKER_IMAGE}:latest"
                     }
                 }
 
-                sh "docker image rm ${DOCKER_IMAGE}:${DOCKER_TAG}"
+                sh "docker image rm ${DOCKER_IMAGE}:latest"
             }
         }
 
