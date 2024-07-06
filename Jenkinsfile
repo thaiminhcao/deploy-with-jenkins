@@ -7,6 +7,7 @@ pipeline {
         DOCKER_IMAGE = 'thaihihi/demo:latest'
         DOCKER_REGISTRY_URL = 'https://index.docker.io/v1/'
         DOCKER_REGISTRY_CREDENTIALS_ID = 'docker-hub'
+        DOCKER_TAG ="${GIT_BRANCH.tokenize('/).pop()}-${BUILD_NUMBER}-${GIT_COMMIT.substring(0,7)}"
     }
 
     stages {
@@ -14,9 +15,8 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry('${DOCKER_REGISTRY_URL}', '${DOCKER_REGISTRY_CREDENTIALS_ID}') {
-                        sh 'docker build -t ${DOCKER_IMAGE} .'
-                        sh 'docker push ${DOCKER_IMAGE}'
-                  
+                        sh 'docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} .'
+                        sh 'docker push ${DOCKER_IMAGE}:latest'
                     }
                 }
             }
