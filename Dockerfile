@@ -1,4 +1,4 @@
-FROM node:14
+FROM node:lts-alpine3.20
 
 WORKDIR /usr/src/app
 
@@ -8,7 +8,7 @@ RUN npm install -f
 
 COPY . .
 
-RUN npm run test || (npm cache clean --force && rm -rf node_modules && npm install -f)
+RUN npm run test
 
 RUN npm run build
 
