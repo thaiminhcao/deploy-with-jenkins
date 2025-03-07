@@ -3,6 +3,6 @@ export const metadata = {
 };
 
 export default function Page() {
-  console.log('a')
+  console.log('b')
   return <h1>App Router +1</h1>;
 }
