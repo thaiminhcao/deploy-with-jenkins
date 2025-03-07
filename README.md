@@ -20,10 +20,6 @@ In your terminal, run the following command:
 npx create-next-app --example with-jest with-jest-app
 ```
 
-```bash
-pnpm create next-app --example with-jest with-jest-app
-```
-
 ## Running Tests
 
 ```bash
