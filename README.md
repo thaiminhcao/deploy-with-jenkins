@@ -21,10 +21,6 @@ npx create-next-app --example with-jest with-jest-app
 ```
 
 ```bash
-yarn create next-app --example with-jest with-jest-app
-```
-
-```bash
 pnpm create next-app --example with-jest with-jest-app
 ```
 
